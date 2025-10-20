@@ -1,0 +1,8 @@
+
+Q1. What is the data-volume or revenue threshold for a business to fall under the Delaware Personal Data Privacy Act and the Virginia CDPA?
+
+Q2. When is consumer consent required before processing sensitive personal data under the Virginia Consumer Data Protection Act?
+
+Q3. What obligations must private entities follow before collecting biometric identifiers under the Illinois Biometric Information Privacy Act?
+
+Q4. What remedies are available to individuals for violations under the Illinois Biometric Information Privacy Act, and how does this differ from the California Consumer Privacy Act?

@@ -1,0 +1,12 @@
+* California Consumer Privacy Act of 2018:
+https://leginfo.legislature.ca.gov/faces/codes_displayText.xhtml?division=3.&part=4.&lawCode=CIV&title=1.81.5
+
+
+* Virginia Consumer Data Protection Act 2021:
+https://law.lis.virginia.gov/vacodefull/title59.1/chapter53/
+
+* Delaware Personal Data Privacy Act :
+https://delcode.delaware.gov/title6/c012d/index.html
+
+* Illinois Biometric Information Privacy Act:
+https://www.ilga.gov/Legislation/ILCS/Articles?ActID=3004&ChapterID=5#:~:text=(740%20ILCS%2014/1),financial%20transactions%20and%20security%20screenings.

@@ -1,0 +1,5 @@
+# Ignore the Python virtual environment
+.venv
+.env
+z_notes.txt
+z.py
