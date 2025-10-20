@@ -1,0 +1,13 @@
+Create Virtal environment
+  python -m venv ./venv
+
+Activate Virtal environment
+  venv\Scripts\activate
+
+Key Libraries (pip install -- )
+ * python-dotenv
+ * openai
+ * chromadb
+ *
+
+ 

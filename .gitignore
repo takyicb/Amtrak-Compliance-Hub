@@ -1,5 +1,4 @@
 # Ignore the Python virtual environment
 .env
 venv/
-backup/
-chroma_privacy_law_db/
+# Ignore database files
