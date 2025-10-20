@@ -1,5 +1,10 @@
 # Ignore the Python virtual environment
-.venv
 .env
+venv/
+chroma_privacy_law_db/
 z_notes.txt
 z.py
+v1_ingest.py
+v1_query.py
+v2_ingest.py
+v2_query.py
