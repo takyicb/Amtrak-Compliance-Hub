@@ -1,4 +1,4 @@
 # Ignore the Python virtual environment
 .env
 venv/
-# Ignore database files
+
