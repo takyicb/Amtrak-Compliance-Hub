@@ -1,7 +1,10 @@
-
 Q1. What is the data-volume or revenue threshold for a business to fall under the Delaware Personal Data Privacy Act and the Virginia CDPA?
 
-Q2. When is consumer consent required before processing sensitive personal data under the Virginia Consumer Data Protection Act?
+Q1. When is consumer consent required before processing sensitive personal data under the Virginia Consumer Data Protection Act?
+
+Q. What are the best practices for securing biometric data to meet compliance standards?
+
+Q5. What are the reporting obligations for employers when employee biometric data is compromised?
 
 Q3. What obligations must private entities follow before collecting biometric identifiers under the Illinois Biometric Information Privacy Act?
 

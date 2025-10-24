@@ -1,12 +1,27 @@
-* California Consumer Privacy Act of 2018:
+* California Consumer Privacy Act of 2018: Signed:6/18/2028 Effective: 2/2/2024
 https://leginfo.legislature.ca.gov/faces/codes_displayText.xhtml?division=3.&part=4.&lawCode=CIV&title=1.81.5
 
 
-* Virginia Consumer Data Protection Act 2021:
+* Virginia Consumer Data Protection Act Act Signed:3/2/2021 Effective: 1/1/2023
 https://law.lis.virginia.gov/vacodefull/title59.1/chapter53/
 
-* Delaware Personal Data Privacy Act :
+* Delaware Personal Data Privacy Act Signed: 9/11/2023 Effective: 7/1/2025
 https://delcode.delaware.gov/title6/c012d/index.html
 
-* Illinois Biometric Information Privacy Act:
+* Illinois Biometric Information Privacy Act Signed:10/3/2008 Effective: 8/2/2024
 https://www.ilga.gov/Legislation/ILCS/Articles?ActID=3004&ChapterID=5#:~:text=(740%20ILCS%2014/1),financial%20transactions%20and%20security%20screenings.
+
+* New Jersey Senate Bill 332 - Privacy Law Signed:1/16/2024 Effective: 1/15/2025
+https://pub.njleg.state.nj.us/Bills/2022/PL23/266_.HTM
+
+* New Hampshire Senate Bill 255 - Privacy Law Signed: 3/6/2024 Effective: 1/1/2025
+https://gc.nh.gov/rsa/html/LII/507-H/507-H-9.htm
+
+
+
+California Consumer Privacy Act of 2018: Signed:6/18/2028 Effective: 2/2/2024
+Virginia Consumer Data Protection Act Act Signed:3/2/2021 Effective: 1/1/2023
+Delaware Personal Data Privacy Act Signed: 9/11/2023 Effective: 7/1/2025
+Illinois Biometric Information Privacy Act Signed:10/3/2008 Effective: 8/2/2024
+New Jersey Senate Bill 332 - Privacy Law Signed:1/16/2024 Effective: 1/15/2025
+New Hampshire Senate Bill 255 - Privacy Law Signed: 3/6/2024 Effective: 1/1/2025

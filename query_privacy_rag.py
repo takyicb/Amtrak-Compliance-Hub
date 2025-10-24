@@ -35,58 +35,56 @@ collection = chroma.get_or_create_collection(
 )
 
 # ── Helpers ─────────────────────────────────────────────────────────────────────
-def query_chunks(question: str, k: int = TOP_K):
+def query_chunks(question, k=TOP_K):
     if collection.count() == 0:
-        print("ERROR: Collection is empty. Run ingest_privacy_laws.py first.")
+        print("⚠️  Collection is empty. Run ingest_privacy_laws.py first.")
         sys.exit(1)
-    try:
-        res = collection.query(
-            query_texts=[question],
-            n_results=k,
-            include=["documents", "metadatas", "distances"],  # no "ids" here
-        )
-    except Exception as e:
-        # Common pitfall: dimension mismatch
-        if "dimension" in str(e).lower():
-            print("ERROR: Embedding dimension mismatch.\n"
-                  f"- Ingest used: {EMBED_MODEL} (1536-dim if *-small)\n"
-                  "- Make sure this script uses the SAME EMBED_MODEL and COLLECTION_NAME/DB_PATH.\n"
-                  "Tip: set EMBED_MODEL in .env to match ingestion.")
-        raise
-    docs  = res.get("documents", [[]])[0]
-    metas = res.get("metadatas", [[]])[0] or [{} for _ in docs]
-    dists = res.get("distances", [[]])[0] or [0.0 for _ in docs]
+
+    res = collection.query(
+        query_texts=[question],
+        n_results=k,
+        include=["documents", "metadatas", "distances"],
+    )
+    docs = res["documents"][0]
+    metas = res["metadatas"][0]
+    dists = res["distances"][0]
     rows = sorted(zip(docs, metas, dists), key=lambda r: r[2])
     return rows
 
 def build_context(rows):
     out, total = ["Context Chunks:"], 0
     for i, (doc, meta, dist) in enumerate(rows, 1):
-        src = meta.get("source", "Unknown Source")
-        sec = meta.get("section", "")
+        src = meta.get("source_file", "Unknown Source")
+        sec = meta.get("section_id", "")
+        law = meta.get("law", "")
         jdx = meta.get("jurisdiction", "")
-        label = f"[{i}] {src}" + (f" — {sec}" if sec else "") + (f" — {jdx}" if jdx else "")
+        sd = meta.get("law_signed_date_provided", "")
+        ed = meta.get("law_effective_date_provided", "")
+        label = f"[{i}] {law} — {sec} ({jdx})"
+        if sd or ed:
+            label += f" [Signed: {sd or '?'} | Effective: {ed or '?'}]"
         block = f"{label}\n{doc.strip()}\n"
-        if total + len(block) > MAX_CONTEXT_CHARS: break
-        out.append(block); total += len(block)
+        if total + len(block) > MAX_CONTEXT_CHARS:
+            break
+        out.append(block)
+        total += len(block)
     return "\n".join(out)
 
-SYSTEM_PROMPT = (
-    "You are a meticulous legal RAG assistant for U.S. privacy statutes.\n"
-    'Answer ONLY using the provided Context Chunks. If not found, say "Not found in supplied context." '
-    "Never invent section numbers, thresholds, or remedies.\n"
-    "Return at most 100 words."
-)
+def ask_llm(question, context):
+    system_prompt = (
+        "You are a legal RAG assistant for U.S. privacy laws. "
+        "Answer ONLY using the provided context. "
+        "If not found, say 'Not found in supplied context.' "
+        "Keep your answer under 120 words, concise but accurate."
+    )
 
-def ask_llm(question: str, context: str):
-    prompt = f"{context}\n\nQuestion:\n{question}"
     resp = client.chat.completions.create(
         model=CHAT_MODEL,
         temperature=0.2,
-        max_tokens=280,
+        max_tokens=350,
         messages=[
-            {"role": "system", "content": SYSTEM_PROMPT},
-            {"role": "user", "content": prompt},
+            {"role": "system", "content": system_prompt},
+            {"role": "user", "content": f"{context}\n\nQuestion:\n{question}"},
         ],
     )
     return resp.choices[0].message.content.strip()
@@ -94,26 +92,41 @@ def ask_llm(question: str, context: str):
 def print_support(rows):
     print("\n=== CONTEXT USED ===")
     for i, (doc, meta, dist) in enumerate(rows, 1):
-        src = meta.get("source", "")
-        sec = meta.get("section", "")
+        law = meta.get("law", "")
+        sec = meta.get("section_id", "")
         jdx = meta.get("jurisdiction", "")
-        snippet = textwrap.shorten(" ".join(doc.split()), width=200, placeholder="…")
-        print(f"[{i}] {src}" + (f" — {sec}" if sec else "") + (f" — {jdx}" if jdx else "")
-              + f"  (distance={dist:.4f})")
+        sd = meta.get("law_signed_date", "")
+        ed = meta.get("law_effective_date", "")
+        snippet = textwrap.shorten(" ".join(doc.split()), width=180, placeholder="…")
+        print(f"[{i}] {law} — {sec} ({jdx}) [Signed {sd or '?'} | Effective {ed or '?'}] (distance={dist:.4f})")
         print("    " + snippet)
+
 
 # ── Run ──────────────────────────────────────────────────────────────────────── 
 if __name__ == "__main__":
     try:
-        question = input("> ").strip()
+  
+        question = input("\nEnter your question:\n> ").strip()
         if not question:
-            print("Please enter a question.")
+            print("No question entered.")
             sys.exit(0)
+
         rows = query_chunks(question, TOP_K)
         context = build_context(rows)
+
+        # show which law(s) are most relevant
+        top_meta = rows[0][1]
+        top_law = top_meta.get("law", "")
+        sd = top_meta.get("law_signed_date", "")
+        ed = top_meta.get("law_effective_date", "")
+
         answer = ask_llm(question, context)
+
         print("\n=== ANSWER ===")
+        if top_law:
+            print(f"📘 {top_law} — Signed {sd or '?'} | Effective {ed or '?'}\n")
         print(answer)
         print_support(rows)
+
     except KeyboardInterrupt:
         print("\nCancelled.")
